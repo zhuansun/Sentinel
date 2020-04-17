@@ -118,8 +118,11 @@ public class ContextUtil {
     }
 
     protected static Context trueEnter(String name, String origin) {
+        // 先从ThreadLocal中获取
         Context context = contextHolder.get();
         if (context == null) {
+            // 如果ThreadLocal中获取不到Context
+            // 则根据name从map中获取根节点，只要是相同的资源名，就能直接从map中获取到node
             Map<String, DefaultNode> localCacheNameMap = contextNameNodeMap;
             DefaultNode node = localCacheNameMap.get(name);
             if (node == null) {
@@ -135,6 +138,7 @@ public class ContextUtil {
                                 setNullContext();
                                 return NULL_CONTEXT;
                             } else {
+                                // 创建一个新的入口节点
                                 node = new EntranceNode(new StringResourceWrapper(name, EntryType.IN), null);
                                 // Add entrance node.
                                 Constants.ROOT.addChild(node);

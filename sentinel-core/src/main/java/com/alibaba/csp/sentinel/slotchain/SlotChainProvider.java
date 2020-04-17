@@ -36,6 +36,8 @@ public final class SlotChainProvider {
      * @return new created slot chain
      */
     public static ProcessorSlotChain newSlotChain() {
+        //ProcessorSlotChain 是一个链表，里面添加了很多个 Slot
+
         if (slotChainBuilder != null) {
             return slotChainBuilder.build();
         }

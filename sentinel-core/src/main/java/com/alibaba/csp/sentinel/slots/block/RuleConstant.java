@@ -23,9 +23,13 @@ import com.alibaba.csp.sentinel.node.IntervalProperty;
  */
 public final class RuleConstant {
 
+    //限流规则：线程数
     public static final int FLOW_GRADE_THREAD = 0;
+
+    //限流规则：QPS
     public static final int FLOW_GRADE_QPS = 1;
 
+    //
     public static final int DEGRADE_GRADE_RT = 0;
     /**
      * Degrade by biz exception ratio in the current {@link IntervalProperty#INTERVAL} second(s).

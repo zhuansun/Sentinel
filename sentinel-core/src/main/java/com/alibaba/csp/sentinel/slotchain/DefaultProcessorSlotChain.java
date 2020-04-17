@@ -72,6 +72,8 @@ public class DefaultProcessorSlotChain extends ProcessorSlotChain {
     @Override
     public void entry(Context context, ResourceWrapper resourceWrapper, Object t, int count, boolean prioritized, Object... args)
         throws Throwable {
+        //这里调用的是first这个entry的transformEntry这个方法，first就在上面..
+        // .transformEntry会调用entry方法，所以就相当于这个，调用的就是：这个类的29行
         first.transformEntry(context, resourceWrapper, t, count, prioritized, args);
     }
 

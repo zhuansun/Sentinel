@@ -54,9 +54,11 @@ public class StatisticSlot extends AbstractLinkedProcessorSlot<DefaultNode> {
                       boolean prioritized, Object... args) throws Throwable {
         try {
             // Do some checking.
+            // 触发下一个Slot的entry方法
             fireEntry(context, resourceWrapper, node, count, prioritized, args);
 
             // Request passed, add thread count and pass count.
+            // 如果能通过SlotChain中后面的Slot的entry方法，说明没有被限流或降级,则进行统计信息
             node.increaseThreadNum();
             node.addPassRequest(count);
 
@@ -77,6 +79,7 @@ public class StatisticSlot extends AbstractLinkedProcessorSlot<DefaultNode> {
                 handler.onPass(context, resourceWrapper, node, count, args);
             }
         } catch (PriorityWaitException ex) {
+            //catch到异常之后，还要统计异常的相关信息
             node.increaseThreadNum();
             if (context.getCurEntry().getOriginNode() != null) {
                 // Add count for origin node.
@@ -96,6 +99,7 @@ public class StatisticSlot extends AbstractLinkedProcessorSlot<DefaultNode> {
             context.getCurEntry().setError(e);
 
             // Add block count.
+            //catch到异常之后，还要统计异常的相关信息：统计block的qps数
             node.increaseBlockQps(count);
             if (context.getCurEntry().getOriginNode() != null) {
                 context.getCurEntry().getOriginNode().increaseBlockQps(count);
